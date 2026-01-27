@@ -1,5 +1,6 @@
 // import { Link } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const ServiceDeatilsPage = async ({ params }) => {
@@ -45,10 +46,12 @@ const ServiceDeatilsPage = async ({ params }) => {
         </div>
         {/* Right Side */}
         <div className="col-span-3 space-y-4">
-    
+          <Link href={`/checkout/${data._id}`}>
             <button className="w-full text-white h-9 bg-orange-500">
               Checkout
             </button>
+          
+          </Link>
   
           <p className="text-center text-xl font-bold">
             Price: $ {data?.price}
