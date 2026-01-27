@@ -1,14 +1,18 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import React from "react";
 import toast from "react-hot-toast";
 
 const CheckoutForm = ({ data }) => {
 
+    const {data: session} = useSession();
+    console.log(session);
+
   const handleBookService = async (e) => {
     toast("Submitting Booking...");
     e.preventDefault();
-    
+
     const form = e.target;
     const name = form.name.value;
     const date = form.date.value;
@@ -16,6 +20,7 @@ const CheckoutForm = ({ data }) => {
     const address = form.address.value;
     const email = form.email.value;
     const bookingPayload = {
+        //session theke
       customerName: name,
       email,
 
@@ -23,14 +28,21 @@ const CheckoutForm = ({ data }) => {
       date,
       phone,
       address,
-      service: data?.title,
-      service_id: data?._id,
-      img: data?.img,
-      price:data?.price
+    
 
+      //extra info 
+      service_name: data?.title,
+      service_id: data?._id,
+      service_img: data?.img,
+      service_price:data?.price
     };
 
-    console.log(bookingPayload);
+    const res = await fetch("http://localhost:3000/api/service",{
+        method:"POST",
+        body: JSON.stringify(bookingPayload)
+    })
+    const postedResponse = await res.json();
+    console.log("Posted Data  : ",postedResponse);
 
   };
 
@@ -47,8 +59,8 @@ const CheckoutForm = ({ data }) => {
                 <span className="label-text">Name</span>
               </label>
               <input
-       
                 type="text"
+                defaultValue={session?.user?.name} readOnly
                 name="name"
                 className="input input-bordered"
               />
@@ -61,6 +73,7 @@ const CheckoutForm = ({ data }) => {
               <input 
        
                 type="text"
+                defaultValue={session?.user?.email} readOnly
                 name="email"
                 placeholder="email"
                 className="input input-bordered"
@@ -72,8 +85,7 @@ const CheckoutForm = ({ data }) => {
               </label>
               <input
                 type="text"
-                defaultValue={data?.price}
-           
+                defaultValue={data?.price} readOnly
                 name="price"
                 className="input input-bordered"
               />
