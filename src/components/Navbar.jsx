@@ -6,7 +6,7 @@ import React from "react";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
-  console.log(session);
+  // console.log(session);
   const navMenu = () => {
     return (
       <>
@@ -23,7 +23,7 @@ export default function Navbar() {
           <Link href={"/blog"}>Blog</Link>
         </li>
         <li>
-          <Link href={"/contact"}>Conatct</Link>
+          <Link href={"/my-booking"}>My Booking</Link>
         </li>
       </>
     );
