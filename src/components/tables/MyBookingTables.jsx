@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { FaRegEdit } from "react-icons/fa";
 import { DeleteBookingButton } from "@/app/my-booking/components/DeleteBookingButton";
+import Link from "next/link";
 
 
 export default function MyBookingTables({ data }) {
@@ -49,7 +50,10 @@ export default function MyBookingTables({ data }) {
                 <td>{item.address}</td>
 
                 <td>
+                  <Link href={`/my-booking/${item._id}`}>
                   <FaRegEdit className="h-6 w-6 cursor-pointer" />
+                  
+                  </Link>
                 </td>
 
                 <td>
