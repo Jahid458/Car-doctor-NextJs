@@ -1,14 +1,13 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
 
 const BookingUpdateForm = ({ data }) => {
-
- 
-
     const {data: session} = useSession();
+    const router = useRouter()
     console.log(session);
     console.log('Form Update from', data);
 
@@ -39,12 +38,16 @@ const BookingUpdateForm = ({ data }) => {
       // service_price:data?.price
     };
 
-    const res = await fetch("http://localhost:3000/api/service",{
-        method:"POST",
+    const res = await fetch(`http://localhost:3000/api/my-bookings/${data._id}`,{
+        method:"PATCH",
+         headers: {
+      "Content-Type": "application/json",
+    },
         body: JSON.stringify(bookingPayload)
     })
     const postedResponse = await res.json();
-    console.log("Posted Data  : ",postedResponse);
+    console.log("Updated Data Response : ",postedResponse);
+    router.push('/my-booking')
 
   };
 
@@ -52,7 +55,7 @@ const BookingUpdateForm = ({ data }) => {
     <div className="my-10">
       <div className="w-11/12 mx-auto">
         <h2 className="text-center text-3xl mb-4">
-          Book Service : {data?.title}
+          Book Service : {data?.service_name}
         </h2>
         <form onSubmit={handleBookService}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -129,7 +132,7 @@ const BookingUpdateForm = ({ data }) => {
             <input
               className="btn btn-primary btn-block"
               type="submit"
-              value="Order Confirm"
+              value="Update Order Confirm"
             />
           </div>
         </form>
